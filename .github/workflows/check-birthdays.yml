@@ -2,8 +2,11 @@ name: Birthday Discord Bot
 
 on:
   schedule:
-    # Runs at 00:00 Melbourne time (AEST/AEDT, UTC+10/11). Use 13:00 UTC for 00:00 AEST, 13:00 UTC for 00:00 AEDT (DST not handled, but 13:00 UTC is midnight for both).
-    - cron: '0 13 * * *'
+    # Always runs after midnight Melbourne time (AEST/AEDT):
+    # - 14:00 UTC = 00:00 (midnight) in AEST (winter)
+    # - 14:00 UTC = 01:00 in AEDT (summer)
+    # This ensures the workflow never runs before midnight in Melbourne, regardless of daylight savings.
+    - cron: '0 14 * * *'
   workflow_dispatch:
 
 jobs:
