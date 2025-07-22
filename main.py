@@ -3,9 +3,9 @@ import os
 from datetime import datetime
 import azure.functions as func
 
-from notion_api import get_all_notion_pages
-from discord_api import send_discord_message
-from utils import is_active_mac_member, is_today_their_birthday
+from apis.discord_api import send_discord_message
+from apis.notion_api import get_all_notion_pages
+from utils.utils import is_active_mac_member, is_today_their_birthday
 from zoneinfo import ZoneInfo
 
 # for local testing
