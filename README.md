@@ -2,6 +2,15 @@
 
 A Python bot that checks a Notion database for member birthdays and sends a celebratory message to a Discord channel via webhook.
 
+## Environment Variables
+
+See `.env.example` for required variables.
+
+- `NOTION_TOKEN`: Notion integration token
+- `DATABASE_ID`: Notion database ID
+- `WEBHOOK_URL`: Discord webhook URL
+- `HR_DISCORD_ID`: Discord HR role ID to tag
+
 ## Features
 
 - Fetches member data from Notion.
@@ -43,16 +52,3 @@ A Python bot that checks a Notion database for member birthdays and sends a cele
    python main.py
    ```
 
-6. **Automated Scheduling (Recommended):**
-   - This bot is now designed to be run automatically via GitHub Actions, scheduled to execute at midnight Melbourne time every day.
-   - See `.github/workflows/birthday.yml` for the workflow configuration.
-   - Ensure your repository secrets are set for the required environment variables.
-
-## Environment Variables
-
-See `.env.example` for required variables.
-
-- `NOTION_TOKEN`: Notion integration token
-- `DATABASE_ID`: Notion database ID
-- `WEBHOOK_URL`: Discord webhook URL
-- `HR_DISCORD_ID`: Discord HR role ID to tag
