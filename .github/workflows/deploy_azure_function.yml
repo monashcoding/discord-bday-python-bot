@@ -1,0 +1,45 @@
+name: Deploy Birthday Notifier Azure Function
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AZURE_FUNCTIONAPP_NAME: discord-bday-python-bot
+  PYTHON_VERSION: '3.13'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python version
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: 'Login to Azure'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: 'Deploy Azure Function'
+      uses: azure/functions-action@v1
+      with:
+        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+        package: .
+        scm-do-build-during-deployment: true
+
+    - name: 'Configure Function App Settings (Environment Variables)'
+      run: |
+        az functionapp config appsettings set --name ${{ env.AZURE_FUNCTIONAPP_NAME }} --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --settings "NOTION_TOKEN=${{ secrets.NOTION_TOKEN }}" "DATABASE_ID=${{ secrets.DATABASE_ID }}" "WEBHOOK_URL=${{ secrets.WEBHOOK_URL }}" "HR_DISCORD_ID=${{ secrets.HR_DISCORD_ID }}"
+      shell: bash
+
