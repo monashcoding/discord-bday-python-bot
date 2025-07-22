@@ -1,6 +1,6 @@
 # Discord Birthday Python Bot
 
-A Python bot that checks a Notion database for member birthdays and sends a celebratory message to a Discord channel via webhook.
+A Python bot that checks a Notion database for member birthdays and sends a celebratory message to a Discord channel via webhook. Written by: [Liam](https://github.com/cuppaLiam)
 
 ## Environment Variables
 
