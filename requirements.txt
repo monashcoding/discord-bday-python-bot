@@ -1,4 +1,3 @@
 requests
-azure-functions
 dotenv
 tzdata

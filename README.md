@@ -13,7 +13,6 @@ A Python bot that checks a Notion database for member birthdays and sends a cele
 - Python 3.9+
 - Notion integration and database
 - Discord webhook URL
-- Azure Functions (for deployment, optional)
 
 ## Setup
 
@@ -40,15 +39,14 @@ A Python bot that checks a Notion database for member birthdays and sends a cele
    - Copy `.env.example` to `.env` and fill in your values.
 
 5. **Run locally:**
-     ```
-   - Run:
-     ```sh
-     python main.py
-     ```
+   ```sh
+   python main.py
+   ```
 
-6. **Deploy to Azure Functions:**
-   - Deploy as a timer-triggered function.
-   - Set environment variables in Azure.
+6. **Automated Scheduling (Recommended):**
+   - This bot is now designed to be run automatically via GitHub Actions, scheduled to execute at midnight Melbourne time every day.
+   - See `.github/workflows/birthday.yml` for the workflow configuration.
+   - Ensure your repository secrets are set for the required environment variables.
 
 ## Environment Variables
 
