@@ -1,8 +1,10 @@
 import logging
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 from dotenv import load_dotenv
+import time
+import logging
 
 from apis.discord_api import send_discord_message
 from apis.notion_api import get_all_notion_pages
@@ -19,6 +21,14 @@ def main():
     current_month_day = today.strftime("%m-%d")
 
     logging.info('Birthday bot started at %s', today.isoformat())
+
+    if today.hour < 0.5:  # if before midnight, roughly
+        target = today.replace(hour=0, minute=0, second=0, microsecond=0)
+        if today.hour != 0:  # we’re before midnight (AEST period)
+            target += timedelta(days=1)
+        wait_time = (target - today).total_seconds()
+        logging.info(f"Waiting {wait_time/3600:.2f} hours until local midnight...")
+        time.sleep(wait_time)
 
     # Retrieve environment variables
     NOTION_TOKEN = os.environ.get('NOTION_TOKEN')
