@@ -23,20 +23,23 @@ def main():
     # If the bot runs before local midnight (AEST period), wait until midnight.
     # If it runs after midnight (AEDT period), continue immediately.
     target_midnight = now.replace(hour=0, minute=0, second=0, microsecond=0)
+    # If we're *before* midnight, wait until today's midnight.
+    # If we're *after* midnight (e.g., 00:16), continue immediately.
     if now < target_midnight:
-        # we're before midnight today → run at today's midnight
-        pass
+        # Before midnight tonight
+        wait_seconds = (target_midnight - now).total_seconds()
+    elif now.hour == 0 and now.minute < 30:
+        # Within the first 30 minutes after midnight — run immediately
+        wait_seconds = 0
     else:
-        # already past today's midnight → run next midnight
-        target_midnight += timedelta(days=1)
+        # Past midnight already (later in the same day)
+        wait_seconds = 0
 
-    wait_seconds = (target_midnight - now).total_seconds()
-    if wait_seconds > 0 and wait_seconds < 86400:  # sanity guard
+    if wait_seconds > 0:
         logging.info(f"Waiting {wait_seconds/3600:.2f} hours until local midnight...")
         time.sleep(wait_seconds)
     else:
-        logging.info("Already past local midnight — continuing immediately.")
-    # -----------------------------------
+        logging.info("Already at or past local midnight — continuing immediately.")
 
     # Once it’s at or after local midnight, proceed as usual
     today = datetime.now(melbourne_tz)
